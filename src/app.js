@@ -1,11 +1,10 @@
-var React = require('react');
+import React from 'react'
+import styles from './styles/main.css'
 
-var Hello = React.createClass({
-  render: function() {
-    return (
-      <div>Hello, {this.props.name}</div>
-    );
+const Hello = React.createClass({
+  render() {
+    return <div>Hello, {this.props.name}!</div>
   }
-});
+})
 
 React.render(<Hello name="Duderino" />, document.body)
