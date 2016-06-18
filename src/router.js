@@ -1,19 +1,28 @@
-import Router from 'ampersand-router'
 import React from 'react'
+import Router from 'ampersand-router'
 import PublicPage from './pages/public'
 import ReposPage from './pages/repos'
+import Layout from './layout'
 
 export default Router.extend({
+  renderPage(page, opts = {layout: true}) {
+    if (opts.layout) {
+      page = (<Layout>{page}</Layout>)
+    } else {
+
+    }
+    React.render(page, document.body)
+  },
   routes: {
     '': 'public',
     'repos': 'repos'
   },
 
   public() {
-    React.render(<PublicPage />, document.body)
+    this.renderPage(<PublicPage />, {layout: false})
 
   },
   repos() {
-    React.render(<ReposPage />, document.body)
+    this.renderPage (<ReposPage />)
   }
 })

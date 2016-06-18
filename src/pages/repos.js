@@ -3,7 +3,9 @@ import React from 'react'
 export default React.createClass({
   render() {
     return (
-      <div>Repos</div>
+      <div>
+        <h2>Repos</h2>
+      </div>
     )
   }
 });
