@@ -8,8 +8,6 @@ export default Router.extend({
   renderPage(page, opts = {layout: true}) {
     if (opts.layout) {
       page = (<Layout>{page}</Layout>)
-    } else {
-
     }
     React.render(page, document.body)
   },

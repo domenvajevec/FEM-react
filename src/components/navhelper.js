@@ -9,8 +9,7 @@ export default React.createClass({
 
     if (pathname) {
       event.preventDefault();
-      app.router.history.navigate(pathname);
-      app.trigger('test', {data: 'data'})
+      app.router.history.navigate(pathname)
     }
   },
   render() {

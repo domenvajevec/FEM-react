@@ -11,8 +11,4 @@ app.extend({
   }
 });
 
-app.on('all', (eventName, payload) => {
-  console.log(`Event: ${eventName}: Payload: ${JSON.stringify(payload)}`)
-})
-
 app.init()
