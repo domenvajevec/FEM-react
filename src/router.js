@@ -3,6 +3,11 @@ import Router from 'ampersand-router'
 import PublicPage from './pages/public'
 import ReposPage from './pages/repos'
 import Layout from './layout'
+import qs from 'qs'
+import secrets from '../secrets'
+import xhr from 'xhr'
+
+console.log("secrets", secrets);
 
 export default Router.extend({
   renderPage(page, opts = {layout: true}) {
@@ -13,7 +18,9 @@ export default Router.extend({
   },
   routes: {
     '': 'public',
-    'repos': 'repos'
+    'repos': 'repos',
+    'login': 'login',
+    'auth/callback?:query': 'authCallback'
   },
 
   public() {
@@ -22,5 +29,23 @@ export default Router.extend({
   },
   repos() {
     this.renderPage (<ReposPage />)
+  },
+  login() {
+    window.location = 'https://github.com/login/oauth/authorize?' + qs.stringify({
+      client_id: secrets.client_demo,
+      redirect_uri: window.location.origin + '/auth/callback',
+      scope: 'user, repo'
+  
+    })
+  },
+  authCallback(query) {
+    query = qs.parse(query);
+    console.log(query);
+    xhr({
+      url: 'https://labelr-localhost.herokuapp.com/authenticate/' + query.code,
+      json: true
+      }, (err, rq, body) => {
+        console.log(body);
+    })
   }
 })
