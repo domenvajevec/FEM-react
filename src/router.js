@@ -1,4 +1,5 @@
 import React from 'react'
+import app from 'ampersand-app'
 import Router from 'ampersand-router'
 import PublicPage from './pages/public'
 import ReposPage from './pages/repos'
@@ -6,8 +7,6 @@ import Layout from './layout'
 import qs from 'qs'
 import secrets from '../secrets'
 import xhr from 'xhr'
-
-console.log("secrets", secrets);
 
 export default Router.extend({
   renderPage(page, opts = {layout: true}) {
@@ -18,8 +17,9 @@ export default Router.extend({
   },
   routes: {
     '': 'public',
-    'repos': 'repos',
-    'login': 'login',
+    repos: 'repos',
+    login: 'login',
+    logout: 'logout',
     'auth/callback?:query': 'authCallback'
   },
 
@@ -38,6 +38,10 @@ export default Router.extend({
   
     })
   },
+  logout() {
+    window.localStorage.clear()
+    window.location = '/'
+  },
   authCallback(query) {
     query = qs.parse(query);
     console.log(query);
@@ -46,6 +50,8 @@ export default Router.extend({
       json: true
       }, (err, rq, body) => {
         console.log(body);
+        app.me.token = body.token
+        this.redirectTo('/repos')
     })
   }
 })
