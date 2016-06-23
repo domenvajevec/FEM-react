@@ -2,6 +2,7 @@ import Router from './router'
 import styles from './styles/main.styl'
 import app from 'ampersand-app'
 import Me from './models/me'
+import icons from 'octicons/octicons/octicons.css'
 
 window.app = app
 
