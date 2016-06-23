@@ -11,10 +11,11 @@ import xhr from 'xhr'
 export default Router.extend({
   renderPage(page, opts = {layout: true}) {
     if (opts.layout) {
-      page = (<Layout>{page}</Layout>)
+      page = (<Layout me={app.me}>{page}</Layout>)
     }
     React.render(page, document.body)
   },
+
   routes: {
     '': 'public',
     repos: 'repos',
@@ -27,9 +28,11 @@ export default Router.extend({
     this.renderPage(<PublicPage />, {layout: false})
 
   },
+
   repos() {
-    this.renderPage (<ReposPage />)
+    this.renderPage (<ReposPage repos={app.me.repos}/>)
   },
+
   login() {
     window.location = 'https://github.com/login/oauth/authorize?' + qs.stringify({
       client_id: secrets.client_demo,
@@ -38,18 +41,18 @@ export default Router.extend({
   
     })
   },
+
   logout() {
     window.localStorage.clear()
     window.location = '/'
   },
+
   authCallback(query) {
     query = qs.parse(query);
-    console.log(query);
     xhr({
       url: 'https://labelr-localhost.herokuapp.com/authenticate/' + query.code,
       json: true
       }, (err, rq, body) => {
-        console.log(body);
         app.me.token = body.token
         this.redirectTo('/repos')
     })
